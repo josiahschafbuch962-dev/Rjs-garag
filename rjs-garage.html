@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RJ's Garage — Auto Repair | Laporte, MN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black:   #0E0E0E;
+    --steel:   #1C1F24;
+    --iron:    #2B2F36;
+    --chrome:  #8A9099;
+    --white:   #F0EEE9;
+    --orange:  #E8631A;
+    --orange2: #C9510E;
+    --dim:     #3D4149;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 2.5rem;
+    background: rgba(14,14,14,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--dim);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.7rem;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--orange); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--chrome); text-decoration: none;
+    font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--orange); color: var(--white);
+    padding: 0.6rem 1.4rem; border-radius: 3px;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--orange2); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 7rem 2.5rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 80% 50%, rgba(232,99,26,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(232,99,26,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-text { position: relative; z-index: 2; }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--orange); margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block; width: 2.5rem; height: 1px; background: var(--orange);
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 8vw, 7.5rem);
+    line-height: 0.92;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em {
+    font-style: normal; color: var(--orange);
+    display: block;
+  }
+  .hero-sub {
+    color: var(--chrome); font-size: 1rem;
+    max-width: 34ch; margin-bottom: 2.5rem; line-height: 1.7;
+  }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--orange); color: var(--white);
+    padding: 0.9rem 2rem; border-radius: 3px;
+    font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--orange2); transform: translateY(-1px); }
+  .btn-ghost {
+    border: 1px solid var(--dim); color: var(--white);
+    padding: 0.9rem 2rem; border-radius: 3px;
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--chrome); color: var(--chrome); }
+
+  /* hero visual — animated engine badge */
+  .hero-visual {
+    display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 2;
+  }
+  .badge-ring {
+    width: clamp(260px, 30vw, 400px);
+    height: clamp(260px, 30vw, 400px);
+    border-radius: 50%;
+    border: 1px solid var(--dim);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    animation: spin 30s linear infinite;
+  }
+  .badge-ring::before {
+    content: '';
+    position: absolute; inset: -1px;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    border-top-color: var(--orange);
+    border-right-color: var(--orange);
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .badge-inner {
+    width: 72%; height: 72%;
+    border-radius: 50%;
+    background: var(--steel);
+    border: 1px solid var(--dim);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    animation: spin 30s linear infinite reverse;
+  }
+  .badge-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem; line-height: 1;
+    color: var(--orange);
+  }
+  .badge-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--chrome);
+    text-align: center;
+  }
+  .badge-stars {
+    font-size: 1.1rem; color: var(--orange);
+    margin-bottom: 0.3rem; letter-spacing: 0.1em;
+  }
+
+  /* stats strip */
+  .stats {
+    background: var(--steel);
+    border-top: 1px solid var(--dim);
+    border-bottom: 1px solid var(--dim);
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    padding: 2rem 2.5rem;
+  }
+  .stat {
+    text-align: center;
+    padding: 1rem;
+    border-right: 1px solid var(--dim);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem; color: var(--orange); line-height: 1;
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--chrome);
+    margin-top: 0.3rem;
+  }
+
+  /* ── SERVICES ── */
+  .section {
+    padding: 6rem 2.5rem;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .section-header {
+    display: flex; align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 3.5rem;
+    gap: 2rem; flex-wrap: wrap;
+  }
+  .section-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--orange);
+    margin-bottom: 0.6rem;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 0.95; letter-spacing: 0.02em;
+  }
+  .section-sub {
+    color: var(--chrome); font-size: 0.9rem;
+    max-width: 32ch; line-height: 1.7;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--dim);
+    border: 1px solid var(--dim);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .service-card {
+    background: var(--steel);
+    padding: 2.2rem 2rem;
+    transition: background 0.2s;
+    cursor: default;
+  }
+  .service-card:hover { background: var(--iron); }
+  .service-icon {
+    font-size: 1.8rem; margin-bottom: 1.2rem;
+    display: block;
+  }
+  .service-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem; letter-spacing: 0.04em;
+    margin-bottom: 0.6rem;
+  }
+  .service-desc {
+    color: var(--chrome); font-size: 0.85rem; line-height: 1.7;
+  }
+
+  /* ── ABOUT STRIP ── */
+  .about-strip {
+    background: var(--steel);
+    border-top: 1px solid var(--dim);
+    border-bottom: 1px solid var(--dim);
+  }
+  .about-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 5rem 2.5rem; gap: 5rem;
+  }
+  .about-tag {
+    display: inline-block;
+    background: rgba(232,99,26,0.12);
+    border: 1px solid rgba(232,99,26,0.3);
+    color: var(--orange);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.9rem; border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+  .about-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    line-height: 0.95; margin-bottom: 1.5rem;
+  }
+  .about-body {
+    color: var(--chrome); line-height: 1.8; font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+  .about-checks { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+  .about-checks li {
+    display: flex; align-items: center; gap: 0.8rem;
+    font-size: 0.88rem; color: var(--white);
+  }
+  .about-checks li::before {
+    content: '✓';
+    color: var(--orange); font-weight: 700; font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+  .about-quote-block {
+    background: var(--iron);
+    border-left: 3px solid var(--orange);
+    border-radius: 0 4px 4px 0;
+    padding: 2.5rem;
+  }
+  .about-quote {
+    font-size: 1.15rem; line-height: 1.7;
+    color: var(--white); font-style: italic; margin-bottom: 1.2rem;
+  }
+  .about-quote-attr {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--orange);
+  }
+
+  /* ── REVIEWS ── */
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .review-card {
+    background: var(--steel);
+    border: 1px solid var(--dim);
+    border-radius: 4px;
+    padding: 2rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .review-card:hover { border-color: var(--orange); transform: translateY(-3px); }
+  .review-stars { color: var(--orange); font-size: 0.9rem; margin-bottom: 1rem; letter-spacing: 0.1em; }
+  .review-text { color: var(--chrome); font-size: 0.88rem; line-height: 1.75; margin-bottom: 1.2rem; font-style: italic; }
+  .review-author {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--white);
+  }
+  .review-source { color: var(--chrome); font-size: 0.65rem; margin-top: 0.2rem; }
+
+  /* ── CTA BAND ── */
+  .cta-band {
+    background: var(--orange);
+    padding: 4rem 2.5rem;
+    text-align: center;
+  }
+  .cta-band h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--white); margin-bottom: 0.8rem;
+  }
+  .cta-band p {
+    color: rgba(240,238,233,0.8); margin-bottom: 2rem; font-size: 1rem;
+  }
+  .btn-white {
+    background: var(--white); color: var(--orange);
+    padding: 1rem 2.5rem; border-radius: 3px;
+    font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none;
+    transition: opacity 0.2s;
+    display: inline-block;
+  }
+  .btn-white:hover { opacity: 0.9; }
+
+  /* ── CONTACT ── */
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+    align-items: start;
+  }
+  .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+  .contact-item {
+    display: flex; gap: 1.2rem; align-items: flex-start;
+  }
+  .contact-icon {
+    width: 2.5rem; height: 2.5rem;
+    background: var(--iron); border: 1px solid var(--dim);
+    border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+  }
+  .contact-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--orange);
+    margin-bottom: 0.3rem;
+  }
+  .contact-value { font-size: 0.95rem; color: var(--white); line-height: 1.5; }
+  .contact-value a { color: var(--white); text-decoration: none; }
+  .contact-value a:hover { color: var(--orange); }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--chrome);
+  }
+  .form-input, .form-select, .form-textarea {
+    background: var(--steel); border: 1px solid var(--dim);
+    color: var(--white); padding: 0.8rem 1rem;
+    border-radius: 3px; font-family: 'Inter', sans-serif;
+    font-size: 0.9rem; outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--orange);
+  }
+  .form-textarea { min-height: 120px; resize: vertical; }
+  .form-select option { background: var(--steel); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--steel);
+    border-top: 1px solid var(--dim);
+    padding: 3rem 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1.5rem;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem; letter-spacing: 0.08em;
+    color: var(--white); text-decoration: none;
+  }
+  .footer-logo span { color: var(--orange); }
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--chrome);
+  }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a {
+    color: var(--chrome); text-decoration: none;
+    font-size: 0.8rem; transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--white); }
+
+  /* responsive */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.2rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 6rem 1.2rem 3rem; }
+    .hero-visual { margin-top: 2rem; }
+    .stats { grid-template-columns: repeat(2,1fr); }
+    .stat:nth-child(2) { border-right: none; }
+    .about-inner { grid-template-columns: 1fr; padding: 3rem 1.2rem; gap: 2rem; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .section { padding: 4rem 1.2rem; }
+    footer { flex-direction: column; text-align: center; }
+    .footer-links { justify-content: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .badge-ring, .badge-inner { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">RJ<span>'</span>S GARAGE</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="tel:2183682306" class="nav-cta">Call Now</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Laporte, MN · US-71</div>
+    <h1>We Fix<em>What Others Can't.</em></h1>
+    <p class="hero-sub">Reliable auto repair from a shop that's been trusted in Hubbard County for over 7 years. We're honest, we're fast, and we stand behind our work.</p>
+    <div class="hero-actions">
+      <a href="tel:2183682306" class="btn-primary">Call (218) 368-2306</a>
+      <a href="#services" class="btn-ghost">Our Services</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="badge-ring">
+      <div class="badge-inner">
+        <div class="badge-stars">★★★★★</div>
+        <div class="badge-num">4.2</div>
+        <div class="badge-label">Google Rating<br>10 Reviews</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">7+</div>
+    <div class="stat-label">Years in Business</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">4.2★</div>
+    <div class="stat-label">Google Rating</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Honest Estimates</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">Same</div>
+    <div class="stat-label">Day Service Available</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div id="services">
+  <div class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">What We Do</div>
+        <h2 class="section-title">Full-Service<br>Auto Repair</h2>
+      </div>
+      <p class="section-sub">From routine maintenance to emergency breakdowns — if your vehicle needs it, we handle it.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-icon">🔧</span>
+        <div class="service-name">Engine Repair</div>
+        <p class="service-desc">Diagnostics, misfires, overheating, timing, and full engine rebuilds. We find the problem fast and fix it right.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">⚡</span>
+        <div class="service-name">Electrical & Alternator</div>
+        <p class="service-desc">Battery, alternator, starter, and full electrical system diagnosis. No guesswork — just accurate repairs.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🛑</span>
+        <div class="service-name">Brakes & Safety</div>
+        <p class="service-desc">Pads, rotors, calipers, and brake lines. We won't let you leave unless your vehicle is safe to drive.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🛞</span>
+        <div class="service-name">Suspension & Steering</div>
+        <p class="service-desc">Shocks, struts, tie rods, wheel alignments — keeping your ride smooth and your tires wearing evenly.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🛢️</span>
+        <div class="service-name">Oil Change & Maintenance</div>
+        <p class="service-desc">Quick oil changes, fluid checks, filters, and scheduled maintenance to keep your vehicle running longer.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🚨</span>
+        <div class="service-name">Breakdown & Diagnostics</div>
+        <p class="service-desc">Broke down nearby? We've helped drivers who've pulled off US-71 — come to us and we'll get you moving again.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="about-strip" id="about">
+  <div class="about-inner">
+    <div>
+      <div class="about-tag">About RJ's Garage</div>
+      <h2 class="about-heading">Local. Reliable.<br>No Surprises.</h2>
+      <p class="about-body">We're a family-run shop right off US-71 in Laporte, MN. We've been keeping Hubbard County drivers on the road for over 7 years — and we've built our reputation one honest repair at a time.</p>
+      <ul class="about-checks">
+        <li>Upfront pricing before any work begins</li>
+        <li>Fast turnaround — most jobs done same day</li>
+        <li>We work on all makes and models</li>
+        <li>Locally owned and operated</li>
+        <li>Conveniently located on US-71</li>
+      </ul>
+    </div>
+    <div class="about-quote-block">
+      <p class="about-quote">"Alternator went out a quarter mile from RJ's garage. They got me in right away, diagnosed it fast, and had me back on the road the same day. Couldn't have asked for better."</p>
+      <div class="about-quote-attr">— Google Review · 5 Stars</div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<div id="reviews">
+  <div class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">Customer Reviews</div>
+        <h2 class="section-title">What People<br>Are Saying</h2>
+      </div>
+      <p class="section-sub">Straight from our Google reviews — real customers, real experiences.</p>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Very helpful and very reliable with their price. Didn't try to sell me on anything I didn't need."</p>
+        <div class="review-author">Google Reviewer</div>
+        <div class="review-source">via Google Reviews</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Very good guy to work with. Straightforward, honest, and gets the job done right the first time."</p>
+        <div class="review-author">Google Reviewer</div>
+        <div class="review-source">via Google Reviews</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Alternator went out a quarter mile from RJ's garage. They had me fixed up and back on the road same day. Incredibly convenient and professional."</p>
+        <div class="review-author">Google Reviewer</div>
+        <div class="review-source">via Google Reviews</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <h2>Need Your Vehicle Fixed Today?</h2>
+  <p>Give us a call or drop by the shop on US-71. We'll take a look and give you a straight answer.</p>
+  <a href="tel:2183682306" class="btn-white">Call (218) 368-2306</a>
+</div>
+
+<!-- CONTACT -->
+<div id="contact">
+  <div class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">Find Us</div>
+        <h2 class="section-title">Get In<br>Touch</h2>
+      </div>
+      <p class="section-sub">Stop in, give us a call, or send us a message. We'll get back to you fast.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-label">Address</div>
+            <div class="contact-value">43694 US-71<br>Laporte, MN 56461</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <div class="contact-label">Phone</div>
+            <div class="contact-value"><a href="tel:2183682306">(218) 368-2306</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div>
+            <div class="contact-label">Hours</div>
+            <div class="contact-value">Mon – Fri: 8:00 AM – 5:00 PM<br>Sat – Sun: Call Ahead</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-label">Location</div>
+            <div class="contact-value">Right off US-71 · Easy to find<br>5.9 miles from Laporte center</div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input class="form-input" type="text" placeholder="John">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input class="form-input" type="text" placeholder="Smith">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input class="form-input" type="tel" placeholder="(218) 000-0000">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Service Needed</label>
+          <select class="form-select">
+            <option value="">Select a service...</option>
+            <option>Engine Repair</option>
+            <option>Electrical / Alternator</option>
+            <option>Brakes</option>
+            <option>Suspension / Steering</option>
+            <option>Oil Change / Maintenance</option>
+            <option>Breakdown / Diagnostics</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tell Us What's Going On</label>
+          <textarea class="form-textarea" placeholder="Describe the issue with your vehicle..."></textarea>
+        </div>
+        <button class="btn-primary" style="cursor:pointer;border:none;width:100%;font-size:0.85rem;">Send Message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">RJ<span>'</span>S GARAGE</a>
+  <div class="footer-copy">© 2026 RJ's Garage · Laporte, MN · All Rights Reserved</div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+    <a href="tel:2183682306">Call Us</a>
+  </div>
+</footer>
+
+</body>
+</html>
